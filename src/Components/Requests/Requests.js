@@ -3,11 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Ensure Bootstrap CSS is import
 import axios from "axios"; // Import axios for API requests
 
 const Requests = () => {
-  const [data, setData] = useState([
-    { id: 1, username: "Mark", shopName: "", state: "", region: "", role: "Admin" },
-    { id: 2, username: "Jacob", shopName: "", state: "", region: "", role: "User" },
-    { id: 3, username: "Larry", shopName: "", state: "", region: "", role: "Manager" },
-  ]);
+  const [data, setData] = useState([]);
 
   const handleInputChange = (id, field, value) => {
     setData((prevData) =>
@@ -17,19 +13,33 @@ const Requests = () => {
     );
   };
 
-  const handleApprove = async (id) => {
+  const handleApprove = async (username, rowData) => {
     try {
-      await axios.post(`http://localhost:9099/person/approve/${id}`);
-      alert(`Approved request for ID: ${id}`);
+      const dataToSend = {
+        username: rowData.username,
+        password: rowData.password,
+        role: rowData.role,
+        status: 1, // Approved status
+        shopname: rowData.shopName,
+        region: rowData.region
+      };
+
+      const response = await axios.put(`http://localhost:9099/person/approve/${username}`, dataToSend);
+
+      if (response.status === 200) {
+        alert(`Approved request for username: ${username}`);
+      }
     } catch (error) {
       console.error("Error approving request", error);
     }
   };
 
-  const handleReject = async (id) => {
+  const handleReject = async (username) => {
     try {
-      await axios.post(`http://localhost:9099/person/reject/${id}`);
-      alert(`Rejected request for ID: ${id}`);
+      const response = await axios.delete(`http://localhost:9099/person/delete/${username}`);
+      if (response.status === 200) {
+        alert(`Rejected request for username: ${username}`);
+      }
     } catch (error) {
       console.error("Error rejecting request", error);
     }
@@ -39,7 +49,7 @@ const Requests = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:9099/person/approvalRequests");
-        setData(response.data);  // Set the fetched data to `data` state
+        setData(response.data);  // Set the fetched data to data state
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -104,13 +114,13 @@ const Requests = () => {
               <td>
                 <button
                   className="btn btn-success btn-sm me-2"
-                  onClick={() => handleApprove(row.id)}
+                  onClick={() => handleApprove(row.username, row)}
                 >
                   Approve
                 </button>
                 <button
                   className="btn btn-danger btn-sm"
-                  onClick={() => handleReject(row.id)}
+                  onClick={() => handleReject(row.username)}  
                 >
                   Reject
                 </button>
