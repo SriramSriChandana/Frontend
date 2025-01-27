@@ -4,6 +4,7 @@ import "./App.css";
 
 // Import Components
 import Requests from "./Components/Requests/Requests";
+import AboutUs  from "./Components/AboutUs/AboutUs";
 import Login from "./Components/Login/Login";
 import Navbar from "./Components/Navbar/Navbar";
 
@@ -36,6 +37,7 @@ function App() {
             <Navbar onLogout={handleLogout} />
             <Routes>
               <Route path="/requests" element={<Requests />} />
+              <Route path="/About Us" element={<AboutUs />} />
               {/* Redirect all other routes to /requests */}
               <Route path="*" element={<Navigate to="/requests" />} />
             </Routes>

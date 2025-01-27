@@ -1,27 +1,31 @@
 import './Navbar.css';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     // Clear all data from localStorage
     localStorage.clear();
+    
 
-    // Optional: Redirect the user to the login page or home page
-    window.location.href = '/login'; // Adjust the path as needed
+    // Redirect the user to the login page
+    navigate('/login'); // Use navigate for client-side routing
   };
 
   return (
     <> 
       <nav className="menu menu-1">
         <ul>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Explore</a></li>
-          <li><a href="#">Your Store</a></li>
-          <li><a href="#">Requests</a></li>
-          <li onClick={handleLogout}> <a href="#">Logout</a> </li>
+          <li><Link to="/About Us">About Us</Link></li>
+          <li><Link to="/About Us">Explore</Link></li>
+          <li><Link to="/About Us">Your Store</Link></li>
+          <li><Link to="/requests">Requests</Link></li>
+          <li onClick={handleLogout}> Logout </li>
         </ul>
       </nav>
     </>
   );
-}
+};
 
 export default Navbar;
