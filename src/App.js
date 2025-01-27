@@ -4,9 +4,10 @@ import "./App.css";
 
 // Import Components
 import Requests from "./Components/Requests/Requests";
-import AboutUs  from "./Components/AboutUs/AboutUs";
 import Login from "./Components/Login/Login";
 import Navbar from "./Components/Navbar/Navbar";
+import SideBar from "./Components/AboutUs/SideBar"
+import Card from "./Components/Card/Card";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Default: not logged in
@@ -34,10 +35,13 @@ function App() {
         {isLoggedIn ? (
           <>
             {/* Show Navbar when logged in */}
+            
             <Navbar onLogout={handleLogout} />
             <Routes>
               <Route path="/requests" element={<Requests />} />
-              <Route path="/About Us" element={<AboutUs />} />
+              <Route path="/AboutUs" element={< SideBar/>} />
+              <Route path="/YourStore" element={<Card/>} />
+
               {/* Redirect all other routes to /requests */}
               <Route path="*" element={<Navigate to="/requests" />} />
             </Routes>
